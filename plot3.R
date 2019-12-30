@@ -1,9 +1,10 @@
 # Script is initiated checking if the Dataset zip file is present
 # If it is, it will set the working directory to it and begin the analysis
 # If it is not, it will assume that the current directory is the Dataset one
+Sys.setlocale("LC_TIME", "C")
 
-if(!require("dplyr")) install.packages("dplyr")
-library("dplyr")
+if(!require("lubridate")) install.packages("lubridate")
+library("lubridate")
 
 if (!file.exists("exdata_data_household_power_consumption.zip")){
         fileURL <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
@@ -25,8 +26,10 @@ if(!exists("power_data")){
         
         power_data$datetime <- with(power_data, ymd(Date) + hms(Time))
 }
-
+png(filename = "plot3.png",  width = 480, height = 480)
 with(power_data, plot(datetime, Sub_metering_1, type = "n",ylab = "Energy Sub metering", xlab= ""))
 with(power_data, lines(datetime, Sub_metering_1, col = "black"))
 with(power_data, lines(datetime, Sub_metering_2, col = "red"))
 with(power_data, lines(datetime, Sub_metering_3, col = "blue"))
+legend("topright", legend = c("Sub_metering_1","Sub_metering_2","Sub_metering_3"), col = c("black","red","blue"), lty=1)
+dev.off()

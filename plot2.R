@@ -25,4 +25,6 @@ if(!exists("power_data")){
         power_data$datetime <- with(power_data, ymd(Date) + hms(Time))
         
 }
-with(power_data, plot(datetime, Global_active_power, type = "l", xlab = ""))
+png(filename = "plot2.png",  width = 480, height = 480)
+with(power_data, plot(datetime, Global_active_power, type = "l", xlab = "", ylab = "Global Active Power (killowatts)"))
+dev.off()

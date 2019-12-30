@@ -19,5 +19,11 @@ if(!exists("power_data")){
         colnames(power_data) <- unlist(strsplit(readLines("household_power_consumption.txt")[1], split = ";"))
         
         power_data$Date <- as.Date(power_data$Date, "%d/%m/%Y")
+        
+        power_data$Time <- format(strptime(power_data$Time, format="%H:%M:%S"), format = "%H:%M:%S")
+        
+        power_data$datetime <- with(power_data, ymd(Date) + hms(Time))
 }
+png(filename = "plot1.png",  width = 480, height = 480)
 with(power_data, hist(Global_active_power, col = "red", xlab = "Global Active Power (killowatts)", main = "Global Active Power"))
+dev.off()
